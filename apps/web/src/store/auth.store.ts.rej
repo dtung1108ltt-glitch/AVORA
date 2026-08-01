@@ -1,0 +1,14 @@
+diff a/apps/web/src/store/auth.store.ts b/apps/web/src/store/auth.store.ts	(rejected hunks)
+@@ -130,10 +130,10 @@ export const useAuthStore = create<AuthState>()(
+     }),
+     {
+       name: 'ai4a-auth',
+-      partialize: (state) => ({ 
+-        token: state.token,
++      partialize: (state) => ({
+         user: state.user,
+         isAuthenticated: !!state.user,
++        // token intentionally excluded — re-hydrated from Supabase session on app init
+       }),
+     }
+   )

@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+.turbo/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env.production
+
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+coverage/
+
+# Mobile builds
+*.ipa
+*.apk
+*.aab
+
+# Docker
+.dockerignore
+
+# Misc
+*.tgz
+.cache/
+
+# Images
+images/
+people/
+.vercel
+.env*.local
+apps/web/public/fourstep.gif
+apps/web/public/handshakes.gif
+node_modules
+.env".env" 
+"services/ai-service/.env.production" 
+"**/.env*" 
+"services/api-gateway/.env.production" 
+"*.env.production" 
