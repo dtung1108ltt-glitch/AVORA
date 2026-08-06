@@ -1,4 +1,4 @@
-﻿import { del, get, post, type ApiRequestConfig } from './api';
+import { del, get, post, type ApiRequestConfig } from './api';
 export type ConfidenceEntry = {
   id: string;
   mood: 'steady' | 'uncertain' | 'blocked' | 'confident';

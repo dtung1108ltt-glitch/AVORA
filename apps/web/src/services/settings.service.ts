@@ -1,4 +1,4 @@
-﻿import { get, patch, type ApiRequestConfig } from './api';
+import { get, patch, type ApiRequestConfig } from './api';
 export type UserSettings = {
   userId: string;
   notifications: { emailNotifications: boolean; pushNotifications: boolean; weeklyDigest: boolean; interviewReminders: boolean; };

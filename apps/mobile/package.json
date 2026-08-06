@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "@ai4a/mobile",
   "version": "1.0.0",
   "private": true,
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@ai4a/shared": "workspace:*",
+    "@tanstack/react-query": "^5.17.9",
     "@hookform/resolvers": "^3.3.4",
     "axios": "^1.6.5",
     "date-fns": "^3.3.1",

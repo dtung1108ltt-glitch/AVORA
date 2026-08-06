@@ -1,4 +1,4 @@
-﻿const LOCAL_API_PORT = '4000';
+const LOCAL_API_PORT = '4000';
 const LOCAL_API_URL = `http://127.0.0.1:${LOCAL_API_PORT}`;
 const isLocalHostname = (hostname: string) =>
   hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '0.0.0.0' ||
