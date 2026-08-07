@@ -3,10 +3,12 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig(({ mode }) => {
-  loadEnv(mode, path.resolve(__dirname, '../../'), '');
+  const rootEnvDir = path.resolve(__dirname, '../../');
+  loadEnv(mode, rootEnvDir, '');
 
   return {
     plugins: [react()],
+    envDir: rootEnvDir,
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

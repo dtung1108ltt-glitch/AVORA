@@ -1,9 +1,9 @@
-import 'dotenv/config';
-import { resolve } from 'path';
+import './env.js';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-// Load .env from api-gateway directory
-const envPath = resolve(process.cwd(), '.env');
-console.log('[DEBUG] Loading .env from:', envPath);
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const envPath = resolve(__dirname, '../../../.env');
 
 // Now import everything else
 import express from 'express';
@@ -31,9 +31,14 @@ console.log('[DEBUG] RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+const corsOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: corsOrigins,
   credentials: true,
 }));
 app.use(compression());
