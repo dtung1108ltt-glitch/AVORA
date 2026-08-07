@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle, Button } from '../../../components/ui';
-import { Mic, Clock, Star, ArrowRight, Play, History, Plus } from 'lucide-react';
+import { Card, CardContent, Button } from '../../../components/ui';
+import { Mic, Clock, Star, ArrowRight, History, Plus } from 'lucide-react';
 
 const interviews = [
   {

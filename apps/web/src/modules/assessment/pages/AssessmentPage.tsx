@@ -1,7 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Card, CardHeader, CardTitle, CardContent, Button } from '../../../components/ui';
-import { Brain, MessageCircle, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Card, CardContent, Button } from '../../../components/ui';
+import { Brain, MessageCircle, Sparkles } from 'lucide-react';
 
 const questions = [
   {
@@ -22,7 +21,6 @@ const questions = [
 ];
 
 export default function AssessmentPage() {
-  const { t } = useTranslation();
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
   const [messages, setMessages] = React.useState<{ role: string; content: string }[]>([
     { role: 'assistant', content: "Hi there! I'm your AI career companion. Let's discover your unique strengths and interests together. I'll ask you a few questions to understand you better. Ready to get started?" }

@@ -49,6 +49,30 @@ export interface JDAnalysis {
     currency: string;
     benchmark: number;
   };
+  fit?: {
+    matchScore: number;
+    verdict: string;
+    matchedSkills: string[];
+    missingSkills: {
+      name: string;
+      importance: string;
+      reason: string;
+      learningPriority: number;
+    }[];
+    missingRequirements: {
+      requirement: string;
+      impact: string;
+      workaround: string;
+    }[];
+    portfolioProjects: {
+      title: string;
+      goal: string;
+      skills: string[];
+    }[];
+    roadmapFocus: string[];
+    interviewFocus: string[];
+    nextActions: string[];
+  };
 }
 
 export interface Job {

@@ -21,6 +21,9 @@ router.get('/profile',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user?.userId;
+      if (!userId) {
+        throw new AppError('Unauthorized', 401);
+      }
       const supabase = supabaseAdmin;
 
       const { data, error } = await supabase

@@ -1,7 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Card, CardContent, Button, Input } from '../../../components/ui';
-import { Search, Filter, MapPin, Building2, DollarSign, Briefcase, ArrowRight, Bookmark, Share2 } from 'lucide-react';
+import { Card, CardContent, Button } from '../../../components/ui';
+import { Search, Filter, MapPin, Building2, DollarSign, ArrowRight, Bookmark, Share2 } from 'lucide-react';
 import { formatCurrency } from '../../../utils/helpers';
 
 const jobs = [
@@ -41,7 +40,6 @@ const jobs = [
 ];
 
 export default function JobsPage() {
-  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = React.useState('');
   const [savedJobs, setSavedJobs] = React.useState<number[]>([]);
 

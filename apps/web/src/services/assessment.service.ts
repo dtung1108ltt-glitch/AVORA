@@ -1,5 +1,5 @@
 import { get, post } from './api';
-import type { Assessment, Conversation } from '../lib/shared';
+import type { Assessment } from '@ai4a/shared';
 
 export const assessmentService = {
   async createAssessment(): Promise<{ assessment: Assessment }> {

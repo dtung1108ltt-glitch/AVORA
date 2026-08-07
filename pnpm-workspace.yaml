@@ -3,3 +3,16 @@ packages:
   - 'packages/*'
   - 'services/*'
   - 'tests'
+packageExtensions:
+  lucide-react:
+    peerDependencies:
+      '@types/react': '*'
+  framer-motion:
+    peerDependencies:
+      '@types/react': '*'
+  react-router-dom:
+    peerDependencies:
+      '@types/react': '*'
+  react-router:
+    peerDependencies:
+      '@types/react': '*'

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Assessment, Conversation, AssessmentResult } from '../types/shared.js';
+import type { Assessment, Conversation, AssessmentResult } from '@ai4a/shared';
 
 export class AssessmentService {
   async createAssessment(userId: string): Promise<Assessment> {

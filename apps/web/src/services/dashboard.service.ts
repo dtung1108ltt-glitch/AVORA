@@ -1,5 +1,5 @@
 import { get, isRequestCanceled, type ApiRequestConfig } from './api';
-import type { Assessment, InterviewSession, Job, Roadmap } from '../lib/shared';
+import type { Assessment, InterviewSession, Job, Roadmap } from '@ai4a/shared';
 
 export type DashboardSummary = {
   savedJobs: Job[];

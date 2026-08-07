@@ -1,11 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  Shield, Home, Search, Menu, X, ExternalLink, Github,
+  Shield, Search, Menu, X, ExternalLink, Github,
   ChevronRight, ChevronDown, Copy, Check, ArrowRight, Moon, Sun
 } from 'lucide-react';
-import { useAuthStore } from '../../../store';
 
 // ============ TYPES ============
 type Lang = 'en' | 'vi';
@@ -218,7 +217,6 @@ function CodeBlock({ code, language = 'bash' }: { code: string; language?: strin
 
 // ============ MAIN DOCS PAGE ============
 export default function DocsPage() {
-  const { user, isAuthenticated } = useAuthStore();
   const [lang, setLang] = useState<Lang>('en');
   const [theme, setTheme] = useState<Theme>('light');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -240,7 +238,7 @@ export default function DocsPage() {
   const currentNav = navigation[lang];
 
   // Get prev/next section info
-  const { prevSection, nextSection, prevIndex, nextIndex } = useMemo(() => {
+  const { prevSection, nextSection } = useMemo(() => {
     const currentIndex = allSections.indexOf(activeSection);
     return {
       prevSection: currentIndex > 0 ? allSections[currentIndex - 1] : null,

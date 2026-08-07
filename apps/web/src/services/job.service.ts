@@ -1,5 +1,5 @@
 import { get, post } from './api';
-import type { Job, JobSearchParams, JDAnalysis } from '../lib/shared';
+import type { Job, JobSearchParams, JDAnalysis } from '@ai4a/shared';
 
 export const jobService = {
   async searchJobs(params: JobSearchParams): Promise<{ jobs: Job[]; total: number }> {

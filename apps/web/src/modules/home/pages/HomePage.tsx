@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import {
-  ArrowRight, Sparkles, Shield, Brain, Eye, Zap,
-  Users, Briefcase, GraduationCap, MessageCircle,
-  TrendingUp, Heart, Globe, ExternalLink, Moon, Sun,
-  FileText, Target, Bell, CheckCircle2
+  ArrowRight, Sparkles, Brain, Zap,
+  ExternalLink, Moon, Sun,
+  Target, Bell
 } from 'lucide-react';
 import { Button } from '../../../components/ui';
 import { IMAGES } from '../../../utils/images';
@@ -16,7 +15,12 @@ import { useAccessibility } from '../../../store/accessibility.store';
 const fadeUpVariant = {
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+  transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
+};
+
+const fadeUpVariants: Variants = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };
 
 const staggerContainer = {
@@ -26,12 +30,6 @@ const staggerContainer = {
       delayChildren: 0.2,
     },
   },
-};
-
-const scaleInVariant = {
-  initial: { opacity: 0, scale: 0.9 },
-  animate: { opacity: 1, scale: 1 },
-  transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
 };
 
 
@@ -82,7 +80,7 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix?: string }) {
 
 // ============ PREMIUM BACKGROUND ELEMENTS ============
 
-const PremiumGlowOrbs = ({ isDark }: { isDark: boolean }) => (
+const PremiumGlowOrbs = ({ isDark: _isDark }: { isDark: boolean }) => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
     {/* Primary Indigo Orb - Top Left */}
     <motion.div
@@ -139,19 +137,6 @@ const PremiumGlowOrbs = ({ isDark }: { isDark: boolean }) => (
       transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       aria-hidden="true"
     />
-  </div>
-);
-
-const GlassmorphicCard = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
-  <div
-    className={`card ${className}`}
-    style={{
-      background: 'rgba(17, 24, 39, 0.8)',
-      backdropFilter: 'blur(20px)',
-      borderColor: 'rgba(255, 255, 255, 0.1)',
-    }}
-  >
-    {children}
   </div>
 );
 
@@ -279,7 +264,7 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
                 { target: 92, value: '92%', label: 'Satisfaction', suffix: '%' },
                 { target: 1200, value: '1,200+', label: 'Jobs Matched', suffix: '+' },
               ].map((stat) => (
-                <motion.div key={stat.label} variants={fadeUpVariant} className="flex flex-col">
+                <motion.div key={stat.label} variants={fadeUpVariants} className="flex flex-col">
                   <AnimatedNumber value={stat.target} suffix={stat.suffix} />
                   <span className="text-sm text-white/50 mt-1">{stat.label}</span>
                 </motion.div>
@@ -339,7 +324,7 @@ const HeroSection = ({ isDark }: { isDark: boolean }) => {
 
 // ============ PREMIUM FEATURES SECTION ============
 
-const FeaturesSection = ({ isDark }: { isDark: boolean }) => {
+const FeaturesSection = ({ isDark: _isDark }: { isDark: boolean }) => {
   const features = [
     {
       icon: Brain,
@@ -410,7 +395,7 @@ const FeaturesSection = ({ isDark }: { isDark: boolean }) => {
             return (
               <motion.div
                 key={feature.title}
-                variants={fadeUpVariant}
+                variants={fadeUpVariants}
                 whileHover={{ y: -8 }}
                 className="group relative overflow-hidden rounded-2xl p-8 transition-all duration-300"
                 style={{
@@ -457,7 +442,7 @@ const FeaturesSection = ({ isDark }: { isDark: boolean }) => {
 
 // ============ STATS SECTION ============
 
-const StatsSection = ({ isDark }: { isDark: boolean }) => {
+const StatsSection = ({ isDark: _isDark }: { isDark: boolean }) => {
   const stats = [
     { value: '50,000+', label: 'Users Empowered', suffix: 'worldwide' },
     { value: '92%', label: 'Satisfaction Rate', suffix: 'proven impact' },
@@ -501,7 +486,7 @@ const StatsSection = ({ isDark }: { isDark: boolean }) => {
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              variants={fadeUpVariant}
+              variants={fadeUpVariants}
               className="relative p-8 rounded-2xl overflow-hidden group"
               style={{
                 background: 'rgba(17, 24, 39, 0.6)',
@@ -598,7 +583,7 @@ const CTASection = ({ isDark }: { isDark: boolean }) => {
 
 // ============ PARTNERS SECTION ============
 
-const PartnersSection = ({ isDark }: { isDark: boolean }) => {
+const PartnersSection = ({ isDark: _isDark }: { isDark: boolean }) => {
   const partners = [
     { logo: IMAGES.openai, name: 'OpenAI' },
     { logo: IMAGES.google, name: 'Google' },
@@ -640,7 +625,7 @@ const PartnersSection = ({ isDark }: { isDark: boolean }) => {
           {partners.map((partner) => (
             <motion.div
               key={partner.name}
-              variants={fadeUpVariant}
+              variants={fadeUpVariants}
               whileHover={{ y: -8, scale: 1.05 }}
               className="flex items-center justify-center p-6 rounded-2xl"
               style={{
@@ -663,7 +648,7 @@ const PartnersSection = ({ isDark }: { isDark: boolean }) => {
 
 // ============ TEAM SECTION ============
 
-const TeamSection = ({ isDark }: { isDark: boolean }) => {
+const TeamSection = ({ isDark: _isDark }: { isDark: boolean }) => {
   const teamMembers = [
     { image: IMAGES.people.drAngelaPratt, name: 'Dr. Angela Pratt', role: 'Accessibility Expert' },
     { image: IMAGES.people.drNguyenDangTri, name: 'Dr. Nguyen Dang Tri', role: 'AI Specialist' },
@@ -711,7 +696,7 @@ const TeamSection = ({ isDark }: { isDark: boolean }) => {
           {teamMembers.map((member) => (
             <motion.div
               key={member.name}
-              variants={fadeUpVariant}
+              variants={fadeUpVariants}
               whileHover={{ y: -12 }}
               className="group relative overflow-hidden rounded-3xl"
             >
@@ -750,7 +735,7 @@ const TeamSection = ({ isDark }: { isDark: boolean }) => {
 
 // ============ ORGANIZATIONS SECTION ============
 
-const OrganizationsSection = ({ isDark }: { isDark: boolean }) => {
+const OrganizationsSection = ({ isDark: _isDark }: { isDark: boolean }) => {
   const organizations = [
     { logo: IMAGES.unicef, name: 'UNICEF' },
     { logo: IMAGES.who, name: 'World Health Organization' },
@@ -790,7 +775,7 @@ const OrganizationsSection = ({ isDark }: { isDark: boolean }) => {
           {organizations.map((org) => (
             <motion.div
               key={org.name}
-              variants={fadeUpVariant}
+              variants={fadeUpVariants}
               whileHover={{ scale: 1.05 }}
               className="relative p-8 rounded-2xl text-center"
               style={{

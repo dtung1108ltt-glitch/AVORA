@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, Button } from '../../../components/ui';
-import { Heart, BookOpen, Users, Sparkles, Play, Clock, Star, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Heart, BookOpen, Users, Sparkles, Clock, Star, ChevronRight } from 'lucide-react';
 
 const affirmations = [
   "Your unique perspective is valuable. Employers recognize talent that comes from diverse experiences.",

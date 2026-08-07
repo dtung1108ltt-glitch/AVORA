@@ -1,5 +1,5 @@
 import { get, post } from './api';
-import type { Roadmap, RoadmapPhase } from '../lib/shared';
+import type { Roadmap } from '@ai4a/shared';
 
 export const roadmapService = {
   async getRoadmaps(): Promise<{ roadmaps: Roadmap[] }> {

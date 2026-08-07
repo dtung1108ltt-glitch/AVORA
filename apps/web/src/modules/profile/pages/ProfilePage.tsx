@@ -1,14 +1,12 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Card, CardHeader, CardTitle, CardContent, Button, Input } from '../../../components/ui';
-import { User, Mail, Phone, MapPin, Briefcase, GraduationCap, Edit2 } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent, Button } from '../../../components/ui';
+import { User, Mail, Edit2 } from 'lucide-react';
 import { useAuthStore } from '../../../store';
-import { DISABILITY_TYPES, SEVERITY_LEVELS } from '../../../lib/shared';
+import { DISABILITY_TYPES, SEVERITY_LEVELS } from '@ai4a/shared';
 
-export default function ProfilePage() {
-  const { t } = useTranslation();
+export default function ProfilePage({ editMode: initialEditMode = false }: { editMode?: boolean }) {
   const { user } = useAuthStore();
-  const [editMode, setEditMode] = React.useState(false);
+  const [editMode, setEditMode] = React.useState(initialEditMode);
 
   return (
     <div className="space-y-6">

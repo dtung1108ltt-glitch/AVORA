@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '../../../store';
 import { dashboardService, handleApiError } from '../../../services';
-import type { Assessment, InterviewSession, Job, Roadmap } from '../../../lib/shared';
+import type { Assessment, InterviewSession, Job, Roadmap } from '@ai4a/shared';
 
 const collaborators = [
   { name: 'Avora', image: 'A', tone: 'bg-stone-950 text-white' },
@@ -35,25 +35,11 @@ const collaborators = [
   { name: 'You', image: 'Y', tone: 'bg-primary-100 text-primary-800' },
 ];
 
-const metrics = [
-  { label: 'Profile', value: '75%', delta: '+12%', icon: UserRoundCheck, tone: 'border-primary-200 bg-primary-50 text-primary-700' },
-  { label: 'Roadmaps', value: '3', delta: '+1', icon: Map, tone: 'border-sky-200 bg-sky-50 text-sky-700' },
-  { label: 'Job matches', value: '12', delta: '+5', icon: Briefcase, tone: 'border-emerald-200 bg-emerald-50 text-emerald-700' },
-  { label: 'Practice', value: '45%', delta: '+8%', icon: Mic, tone: 'border-amber-200 bg-amber-50 text-amber-700' },
-];
-
 const progressTimeline = [
   { label: 'Profile', value: 75, amount: '75%', color: 'bg-primary-500' },
   { label: 'Assessment', value: 100, amount: '100%', color: 'bg-stone-950' },
   { label: 'Jobs', value: 62, amount: '12 saved', color: 'bg-sky-500' },
   { label: 'Interview', value: 45, amount: '1 session', color: 'bg-amber-500' },
-];
-
-const platforms = [
-  { name: 'Assessment', value: '100%', amount: 'Complete', icon: Sparkles, color: 'text-primary-600', bg: 'bg-primary-50' },
-  { name: 'Jobs', value: '62%', amount: '12 roles', icon: Briefcase, color: 'text-sky-600', bg: 'bg-sky-50' },
-  { name: 'Roadmaps', value: '58%', amount: '3 plans', icon: Map, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-  { name: 'Interview', value: '45%', amount: 'Needs work', icon: Mic, color: 'text-amber-600', bg: 'bg-amber-50' },
 ];
 
 const nextActions = [
@@ -78,19 +64,6 @@ const nextActions = [
     status: '20 min',
     icon: MessageCircle,
   },
-];
-
-const tableRows = [
-  { module: 'Profile', owner: 'You', score: '75%', status: 'Review', trend: '+12%', icon: UserRoundCheck },
-  { module: 'Career assessment', owner: 'Avora', score: '100%', status: 'Done', trend: '+24%', icon: Sparkles },
-  { module: 'Accessible jobs', owner: 'Avora', score: '62%', status: 'Active', trend: '+5', icon: Briefcase },
-  { module: 'Mock interview', owner: 'Coach', score: '45%', status: 'Next', trend: '+8%', icon: Mic },
-];
-
-const insights = [
-  { label: 'Best match', value: 'Frontend', helper: 'Remote-first roles', icon: Target },
-  { label: 'Access fit', value: '82%', helper: 'High compatibility', icon: ShieldCheck },
-  { label: 'Next review', value: 'Thu', helper: 'Roadmap check-in', icon: CalendarDays },
 ];
 
 function AvatarStack() {

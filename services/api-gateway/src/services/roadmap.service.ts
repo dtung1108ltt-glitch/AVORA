@@ -1,4 +1,4 @@
-import type { Roadmap, RoadmapPhase, Milestone, LearningItem } from '../types/shared.js';
+import type { Roadmap, RoadmapPhase, Milestone, LearningItem } from '@ai4a/shared';
 
 export class RoadmapService {
   async getUserRoadmaps(userId: string): Promise<Roadmap[]> {

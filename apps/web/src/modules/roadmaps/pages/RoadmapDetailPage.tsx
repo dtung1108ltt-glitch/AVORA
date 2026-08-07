@@ -1,9 +1,8 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle, Button } from '../../../components/ui';
-import { ArrowLeft, CheckCircle2, Circle, PlayCircle, Clock, Target, BookOpen } from 'lucide-react';
-import { formatDuration } from '../../../utils/helpers';
 import { Link } from 'react-router-dom';
+import { Card, CardContent, Button } from '../../../components/ui';
+import { ArrowLeft, CheckCircle2, Circle, PlayCircle } from 'lucide-react';
+import { formatDuration } from '../../../utils/helpers';
 
 const mockRoadmap = {
   id: '1',
@@ -93,7 +92,6 @@ const mockRoadmap = {
 };
 
 export default function RoadmapDetailPage() {
-  const { id } = useParams();
   const [expandedPhase, setExpandedPhase] = React.useState<string | null>('p2');
 
   const togglePhase = (phaseId: string) => {

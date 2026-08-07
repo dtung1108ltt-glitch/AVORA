@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import type { CareerMatch, JDAnalysis, Roadmap, InterviewQuestion } from '../types/shared.js';
+import type { CareerMatch, JDAnalysis, Roadmap, InterviewQuestion } from '@ai4a/shared';
 import { AppError } from '../middleware/error.middleware.js';
 
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:5000';

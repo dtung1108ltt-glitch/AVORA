@@ -84,6 +84,6 @@ Return as JSON with:
 - terms: Array of {term, definition}
 - jargon: Array of {original, plain} for jargon conversion`;
 
-    return this.aiClient.generateWithJson(prompt);
+    return this.aiClient.generateWithJson({ prompt });
   }
 }

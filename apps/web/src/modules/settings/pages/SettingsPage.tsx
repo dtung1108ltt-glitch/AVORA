@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   User, Palette, Globe, Shield, Bell, LogOut, 
-  Camera, ChevronRight, Check, Eye, EyeOff,
-  Key, Trash2, Download, Moon, Sun
+  Camera, Check, Eye, EyeOff,
+  Key, Trash2, Download, Moon
 } from 'lucide-react';
 import { Button } from '../../../components/ui';
 import { useAuthStore } from '../../../store';

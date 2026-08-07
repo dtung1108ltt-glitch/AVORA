@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, Button } from '../../../components/ui';
 import {
   ArrowLeft,
@@ -10,11 +10,9 @@ import {
   CheckCircle2,
   Lightbulb,
   AlertCircle,
-  Loader2,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { interviewService } from '../../../services/interview.service';
-import type { InterviewQuestion, InterviewFeedback } from '../../../lib/shared';
+import type { InterviewQuestion, InterviewFeedback } from '@ai4a/shared';
 
 type ApiQuestion = InterviewQuestion & { hint?: string };
 
@@ -51,7 +49,6 @@ const mockQuestions = FALLBACK_QUESTIONS;
 const mockFeedback = fallbackFeedback;
 
 export default function InterviewSessionPage() {
-  const { id } = useParams();
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
   const [isRecording, setIsRecording] = React.useState(false);
   const [isPaused, setIsPaused] = React.useState(false);

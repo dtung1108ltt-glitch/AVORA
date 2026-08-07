@@ -1,37 +1,36 @@
 /**
- * Sanitizes free-text user input before it is interpolated into an LLM prompt.
+ * Sanitizes user-controlled text before it is interpolated into an LLM prompt.
  *
- * - Strips characters/patterns commonly used for prompt-injection attempts
- *   (role markers, code fences, control characters).
- * - Collapses excess whitespace.
- * - Truncates to a maximum length to bound token usage and blast radius.
- *
- * This is a defense-in-depth measure, not a full jailbreak filter — it should
- * be paired with system-prompt hardening and output validation.
+ * This is a defense-in-depth measure, not a complete prompt-injection solution
+ * (no purely textual filter can fully prevent injection). It focuses on
+ * structural hardening:
+ *  - Enforces a maximum length so a single field cannot dominate/overflow the prompt.
+ *  - Strips control characters that have no legitimate use in prompt text.
+ *  - Collapses excessive newlines, which are commonly used to simulate fake
+ *    "system"/"assistant" turns or otherwise break out of the intended context.
+ *  - Trims surrounding whitespace.
  */
-export function sanitizePromptInput(input: unknown, maxLength: number = 500): string {
+export function sanitizePromptInput(input: unknown, maxLength = 500): string {
   if (input === null || input === undefined) {
     return '';
   }
 
-  let value = String(input);
+  let text = String(input);
 
-  // Remove null bytes and other non-printable/control characters (keep newlines/tabs).
-  value = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '');
+  // Strip control characters (except tab/newline), which have no legitimate
+  // use in natural-language prompt fields and can be used to smuggle content.
+  // eslint-disable-next-line no-control-regex
+  text = text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '');
 
-  // Strip common prompt-injection / role-hijack markers.
-  value = value.replace(/```/g, "'''");
-  value = value.replace(/\b(system|assistant|user)\s*:/gi, '$1 -');
-  value = value.replace(/<\s*\/?\s*(system|instructions?|prompt)\s*>/gi, '');
-  value = value.replace(/\b(ignore|disregard)\s+(all\s+|any\s+)?(previous|prior|above)\s+(instructions?|prompts?)\b/gi, '');
+  // Collapse runs of 3+ newlines down to 2, to reduce the ability to
+  // fabricate the appearance of new prompt sections.
+  text = text.replace(/\n{3,}/g, '\n\n');
 
-  // Collapse repeated whitespace and trim.
-  value = value.replace(/\s+/g, ' ').trim();
+  text = text.trim();
 
-  // Bound the length.
-  if (value.length > maxLength) {
-    value = value.slice(0, maxLength).trim();
+  if (text.length > maxLength) {
+    text = text.slice(0, maxLength).trim();
   }
 
-  return value;
+  return text;
 }

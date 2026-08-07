@@ -1,4 +1,4 @@
-import type { Job, JobSearchParams, JDAnalysis } from '../types/shared.js';
+import type { Job, JobSearchParams, JDAnalysis } from '@ai4a/shared';
 
 export class JobService {
   async searchJobs(params: JobSearchParams): Promise<{ jobs: Job[]; total: number; page: number; totalPages: number }> {

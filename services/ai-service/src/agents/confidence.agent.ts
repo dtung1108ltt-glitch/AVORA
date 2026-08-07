@@ -63,7 +63,7 @@ This sounds like imposter syndrome. Help reframe it by:
 
 Return as JSON with reframed (positive reframing), evidence (counter-evidence), and action (one step).`;
 
-    return this.aiClient.generateWithJson(prompt);
+    return this.aiClient.generateWithJson({ prompt });
   }
 
   async generateSuccessJournalPrompt(

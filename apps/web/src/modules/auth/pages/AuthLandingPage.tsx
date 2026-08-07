@@ -1,9 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   ArrowRight, Shield, Sparkles, Users, Heart, ChevronRight, 
-  Star, Compass, CheckCircle, Accessibility, Eye, EyeOff
+  Star, Compass, CheckCircle, Accessibility
 } from 'lucide-react';
 import { Button } from '../../../components/ui';
 

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Menu, User, LogOut, Settings, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../../store';
-import { useAccessibility } from '../../store/accessibility.store';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -11,7 +10,6 @@ interface HeaderProps {
 
 export default function Header({ onMenuClick }: HeaderProps) {
   const { user, isAuthenticated, logout } = useAuthStore();
-  const { settings } = useAccessibility();
   const [userMenuOpen, setUserMenuOpen] = React.useState(false);
   const menuRef = React.useRef<HTMLDivElement>(null);
 

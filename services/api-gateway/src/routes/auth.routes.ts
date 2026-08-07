@@ -130,8 +130,11 @@ router.get('/oauth/:provider', async (req, res, next) => {
     const redirectUrl = `${req.protocol}://${req.get('host')}/api/auth/oauth/${provider}/callback`;
     const supabase = getSupabaseAdmin();
 
+    // Supabase's OAuth provider id for Microsoft is 'azure', not 'microsoft'.
+    const supabaseProvider = provider === 'microsoft' ? 'azure' : provider;
+
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: provider as 'google' | 'microsoft',
+      provider: supabaseProvider as 'google' | 'azure',
       options: {
         redirectTo: redirectUrl,
         skipBrowserRedirect: true,

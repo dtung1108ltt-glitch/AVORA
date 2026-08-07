@@ -57,8 +57,8 @@ const FloatingParticle = ({ delay, x, y, size }: { delay: number; x: number; y: 
 );
 
 // Glowing orb background
-const GlowOrb = ({ className }: { className: string }) => (
-  <div className={`absolute rounded-full blur-3xl opacity-30 ${className}`} />
+const GlowOrb = ({ className, style }: { className: string; style?: React.CSSProperties }) => (
+  <div className={`absolute rounded-full blur-3xl opacity-30 ${className}`} style={style} />
 );
 
 const PartnersPage = () => {
@@ -662,13 +662,13 @@ const PartnersPage = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                   transition={{ delay: 0.5 }}
                 >
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                    whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                     className={`w-full py-4 text-base font-semibold shadow-lg shadow-sky-500/20 ${
                       isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                     }`}

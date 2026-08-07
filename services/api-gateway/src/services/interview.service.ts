@@ -1,4 +1,4 @@
-import type { InterviewSession, InterviewQuestion, InterviewResponse, InterviewFeedback } from '../types/shared.js';
+import type { InterviewSession, InterviewQuestion, InterviewResponse, InterviewFeedback } from '@ai4a/shared';
 
 export class InterviewService {
   async getUserInterviews(userId: string): Promise<InterviewSession[]> {

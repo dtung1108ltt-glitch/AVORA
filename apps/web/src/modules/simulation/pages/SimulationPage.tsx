@@ -1,7 +1,5 @@
-import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, Button } from '../../../components/ui';
-import { Play, Eye, MousePointer, Clock, Star, ArrowRight, Users, Building } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Play, MousePointer, Clock, Star, ArrowRight, Users, Building } from 'lucide-react';
 
 const simulations = [
   {

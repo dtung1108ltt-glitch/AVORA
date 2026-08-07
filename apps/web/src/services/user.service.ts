@@ -1,5 +1,5 @@
-import { get, post, put, del } from './api';
-import type { UserProfile, AccessibilitySettings, PrivacySettings } from '../lib/shared';
+import { get, put, del } from './api';
+import type { UserProfile, AccessibilitySettings, PrivacySettings } from '@ai4a/shared';
 
 export const userService = {
   async getProfile(): Promise<{ user: UserProfile }> {

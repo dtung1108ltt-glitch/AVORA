@@ -1,9 +1,7 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, Button } from '../../../components/ui';
 import { Plus, Target, Clock, CheckCircle2, PlayCircle, Trash2, Edit2 } from 'lucide-react';
 import { formatDuration } from '../../../utils/helpers';
-import { post } from '../../../services/api';
 
 const roadmaps = [
   {
@@ -31,23 +29,6 @@ const roadmaps = [
 ];
 
 export default function RoadmapsPage() {
-  const [jd, setJd] = React.useState('');
-  const [isAnalyzing, setIsAnalyzing] = React.useState(false);
-  const [analysis, setAnalysis] = React.useState<any>(null);
-
-  const handleAnalyze = async () => {
-    if (!jd.trim()) return;
-    setIsAnalyzing(true);
-    try {
-      const res = await post('/api/ai/analyze-jd', {
-        jobDescription: jd,
-      });
-      setAnalysis(res?.analysis ?? null);
-    } finally {
-      setIsAnalyzing(false);
-    }
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

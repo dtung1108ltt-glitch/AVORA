@@ -1,5 +1,5 @@
 import { get, post } from './api';
-import type { InterviewSession, InterviewQuestion, InterviewFeedback } from '../lib/shared';
+import type { InterviewSession, InterviewQuestion, InterviewFeedback } from '@ai4a/shared';
 
 export const interviewService = {
   async getInterviews(): Promise<{ interviews: InterviewSession[] }> {

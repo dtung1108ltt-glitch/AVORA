@@ -67,6 +67,6 @@ Return as JSON with:
 
 Return as JSON.`;
 
-    return this.aiClient.generateWithJson(prompt);
+    return this.aiClient.generateWithJson({ prompt });
   }
 }

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { UserProfile } from '../lib/shared';
+import type { UserProfile } from '@ai4a/shared';
 import { supabase, onAuthStateChange } from '../services/supabase';
 
 interface AuthState {

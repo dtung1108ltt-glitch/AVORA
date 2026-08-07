@@ -1,7 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+
 import { Card, CardHeader, CardTitle, CardContent, Button } from '../../../components/ui';
-import { MapPin, Building2, DollarSign, Briefcase, Clock, Globe, CheckCircle2, AlertTriangle, Bookmark, Share2, Sparkles } from 'lucide-react';
+import { MapPin, Building2, DollarSign, CheckCircle2, Bookmark, Share2, Sparkles } from 'lucide-react';
 import { formatCurrency } from '../../../utils/helpers';
 
 const mockJob = {
@@ -59,7 +59,6 @@ const simplifiedText = {
 };
 
 export default function JobDetailPage() {
-  const { id } = useParams();
   const [activeTab, setActiveTab] = React.useState<'overview' | 'simplified' | 'accessibility'>('overview');
 
   return (

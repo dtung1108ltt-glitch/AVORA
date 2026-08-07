@@ -102,7 +102,7 @@ Evaluate the response and provide:
 
 Return as JSON.`;
 
-    return this.aiClient.generateWithJson(prompt);
+    return this.aiClient.generateWithJson({ prompt });
   }
 
   async provideOverallFeedback(
@@ -167,6 +167,6 @@ Provide:
 
 Return as JSON.`;
 
-    return this.aiClient.generateWithJson(prompt);
+    return this.aiClient.generateWithJson({ prompt });
   }
 }
