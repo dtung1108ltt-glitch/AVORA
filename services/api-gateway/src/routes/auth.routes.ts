@@ -87,6 +87,7 @@ router.post('/login',
       });
 
       if (error) {
+        logger.warn(`[auth.login] Supabase signInWithPassword failed for ${email}: ${error.message}`);
         throw new AppError('Invalid credentials', 401);
       }
 
