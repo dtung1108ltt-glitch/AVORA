@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   api-gateway:
     build:
-      context: ./services/api-gateway
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/api-gateway/Dockerfile
     ports:
       - "4000:4000"
     environment:
@@ -22,8 +20,8 @@ services:
 
   ai-service:
     build:
-      context: ./services/ai-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/ai-service/Dockerfile
     ports:
       - "4001:4001"
     environment:
