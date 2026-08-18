@@ -33,8 +33,8 @@ SHEET_NAME = "viec_lam_nguoi_khuyet_tat_datas"
 QDRANT_URL = "http://localhost:6333"
 COLLECTION_NAME = "avora_jobs"
 
-MODEL_NAME = "intfloat/multilingual-e5-small"
-VECTOR_SIZE = 384
+MODEL_NAME ="Qwen/Qwen3-Embedding-8B"
+VECTOR_SIZE = 8192
 
 # e5 models yeu cau prefix "passage: " cho van ban duoc luu, "query: " cho
 # van ban dung de tim kiem - thieu prefix nay se lam giam do chinh xac ro ret.

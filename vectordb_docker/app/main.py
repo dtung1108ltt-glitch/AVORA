@@ -26,6 +26,9 @@ Responsibilities:
                                      encoder is used: "e5" (default) or
                                      "tfidf". Optional exact-match payload
                                      filters (nhom_khuyet_tat, muc_do_khuyet_tat).
+     All four endpoints accept `include_vector` (default False) to also
+     return each job's stored vector coordinates (384 floats for "e5",
+     133 floats for "tfidf") alongside its payload/metadata.
 """
 import json
 import os
@@ -158,14 +161,35 @@ def health():
 
 
 @app.get("/jobs")
-def list_jobs(limit: int = 20, offset: int = 0, method: Literal["tfidf", "e5"] = "e5"):
+def list_jobs(
+    limit: int = 20,
+    offset: int = 0,
+    method: Literal["tfidf", "e5"] = "e5",
+    include_vector: bool = False,
+):
     collection = COLLECTION_E5 if method == "e5" else COLLECTION_TFIDF
-    result, _ = client.scroll(collection_name=collection, limit=limit, offset=offset, with_payload=True)
-    return [{"id": p.id, **p.payload} for p in result]
+    result, _ = client.scroll(
+        collection_name=collection,
+        limit=limit,
+        offset=offset,
+        with_payload=True,
+        with_vectors=include_vector,
+    )
+    out = []
+    for p in result:
+        item = {"id": p.id, **p.payload}
+        if include_vector:
+            item["vector"] = p.vector
+        out.append(item)
+    return out
 
 
 @app.get("/jobs/{job_id}")
-def get_job(job_id: str, method: Literal["tfidf", "e5"] = "e5"):
+def get_job(
+    job_id: str,
+    method: Literal["tfidf", "e5"] = "e5",
+    include_vector: bool = False,
+):
     collection = COLLECTION_E5 if method == "e5" else COLLECTION_TFIDF
     result = client.scroll(
         collection_name=collection,
@@ -174,18 +198,23 @@ def get_job(job_id: str, method: Literal["tfidf", "e5"] = "e5"):
         ),
         limit=1,
         with_payload=True,
+        with_vectors=include_vector,
     )
     points = result[0]
     if not points:
         raise HTTPException(status_code=404, detail=f"job_id '{job_id}' not found")
     p = points[0]
-    return {"id": p.id, **p.payload}
+    item = {"id": p.id, **p.payload}
+    if include_vector:
+        item["vector"] = p.vector
+    return item
 
 
 class VectorSearchRequest(BaseModel):
     vector: List[float] = Field(..., description="Query vector")
     top_k: int = Field(5, ge=1, le=50)
     method: Literal["tfidf", "e5"] = Field("e5", description="Which collection this vector belongs to")
+    include_vector: bool = Field(False, description="If true, include each hit's own stored vector in the response")
 
 
 class TextSearchRequest(BaseModel):
@@ -196,6 +225,7 @@ class TextSearchRequest(BaseModel):
     )
     nhom_khuyet_tat: Optional[str] = Field(None, description="Exact filter on nhom_khuyet_tat payload field")
     muc_do_khuyet_tat: Optional[str] = Field(None, description="Exact filter on muc_do_khuyet_tat payload field")
+    include_vector: bool = Field(False, description="If true, include each hit's own stored vector in the response")
 
 
 def build_filter(nhom_khuyet_tat: Optional[str], muc_do_khuyet_tat: Optional[str]):
@@ -220,8 +250,19 @@ def search_vector(req: VectorSearchRequest):
             status_code=400,
             detail=f"vector must have {expected_dim} dimensions for method='{req.method}', got {len(req.vector)}",
         )
-    result = client.query_points(collection_name=collection, query=req.vector, limit=req.top_k)
-    return [{"id": h.id, "score": h.score, **h.payload} for h in result.points]
+    result = client.query_points(
+        collection_name=collection,
+        query=req.vector,
+        limit=req.top_k,
+        with_vectors=req.include_vector,
+    )
+    out = []
+    for h in result.points:
+        item = {"id": h.id, "score": h.score, **h.payload}
+        if req.include_vector:
+            item["vector"] = h.vector
+        out.append(item)
+    return out
 
 
 @app.post("/search/text")
@@ -239,5 +280,12 @@ def search_text(req: TextSearchRequest):
         query=vector,
         query_filter=qfilter,
         limit=req.top_k,
+        with_vectors=req.include_vector,
     )
-    return [{"id": h.id, "score": h.score, **h.payload} for h in result.points]
+    out = []
+    for h in result.points:
+        item = {"id": h.id, "score": h.score, **h.payload}
+        if req.include_vector:
+            item["vector"] = h.vector
+        out.append(item)
+    return out

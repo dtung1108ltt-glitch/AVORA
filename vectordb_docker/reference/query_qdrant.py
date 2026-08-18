@@ -18,7 +18,7 @@ from qdrant_client import QdrantClient
 
 QDRANT_URL = "http://localhost:6333"
 COLLECTION_NAME = "avora_jobs"
-MODEL_NAME = "intfloat/multilingual-e5-small"
+MODEL_NAME ="Qwen/Qwen3-Embedding-8B"
 QUERY_PREFIX = "query: "
 TOP_K = 5
 
