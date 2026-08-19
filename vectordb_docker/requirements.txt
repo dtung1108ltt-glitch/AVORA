@@ -1,7 +1,9 @@
 fastapi>=0.110,<1.0
 uvicorn[standard]>=0.29,<1.0
 qdrant-client>=1.12,<2.0
-scikit-learn==1.8.0
-joblib>=1.3,<2.0
 numpy>=1.26,<3.0
+# Qwen3-Embedding-8B requires transformers>=4.51.0 (per official model card)
+transformers>=4.51.0
 sentence-transformers>=3.0,<4.0
+# scikit-learn/joblib REMOVED - TF-IDF/SVD pipeline no longer in use, thay
+# vào đó toàn hệ thống dùng đúng 1 model duy nhất (Qwen3-Embedding-8B).

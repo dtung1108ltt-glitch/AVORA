@@ -43,7 +43,8 @@ TEST_QUERIES = [
 
 
 def run_query(payload: dict):
-    payload.setdefault("method", "e5")  # multilingual-e5-small, khong leak nhan khuyet tat
+    # API hien chi con dung 1 model duy nhat (Qwen3-Embedding-8B), khong con
+    # tham so "method" nua - khong can setdefault gi them o day.
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         API_URL, data=data, headers={"Content-Type": "application/json"}, method="POST"
@@ -88,8 +89,15 @@ def search_via_qdrant_direct(query_text: str, top_k: int = 5):
     from sentence_transformers import SentenceTransformer
     from qdrant_client import QdrantClient
 
-    model = SentenceTransformer("intfloat/multilingual-e5-small")
-    query_vector = model.encode("query: " + query_text, normalize_embeddings=True).tolist()
+    # Phai dung dung model + quy uoc prompt voi app/main.py (xem
+    # QUERY_TASK_INSTRUCTION o do) de vector query tuong thich voi index.
+    model = SentenceTransformer("Qwen/Qwen3-Embedding-8B")
+    task = (
+        "Given a Vietnamese job-search query, retrieve job descriptions "
+        "suitable for people with disabilities that match the query"
+    )
+    instructed = f"Instruct: {task}\nQuery:{query_text}"
+    query_vector = model.encode(instructed, normalize_embeddings=True).tolist()
 
     client = QdrantClient(url="http://localhost:6333")
     result = client.query_points(collection_name="avora_jobs", query=query_vector, limit=top_k)

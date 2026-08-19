@@ -18,8 +18,14 @@ from qdrant_client import QdrantClient
 
 QDRANT_URL = "http://localhost:6333"
 COLLECTION_NAME = "avora_jobs"
-MODEL_NAME ="Qwen/Qwen3-Embedding-8B"
-QUERY_PREFIX = "query: "
+MODEL_NAME = "Qwen/Qwen3-Embedding-8B"
+# Qwen3-Embedding la instruction-aware: query can prefix "Instruct: ...\nQuery:...",
+# khac voi "query: " don gian cua e5. Phai khop dung QUERY_TASK_INSTRUCTION
+# trong app/main.py de vector query sinh ra tuong thich voi index da build.
+QUERY_TASK_INSTRUCTION = (
+    "Given a Vietnamese job-search query, retrieve job descriptions "
+    "suitable for people with disabilities that match the query"
+)
 TOP_K = 5
 
 
@@ -28,7 +34,8 @@ def main():
     print(f"Query: {query_text}\n")
 
     model = SentenceTransformer(MODEL_NAME)
-    query_vector = model.encode(QUERY_PREFIX + query_text, normalize_embeddings=True).tolist()
+    instructed = f"Instruct: {QUERY_TASK_INSTRUCTION}\nQuery:{query_text}"
+    query_vector = model.encode(instructed, normalize_embeddings=True).tolist()
 
     client = QdrantClient(url=QDRANT_URL)
     # FIXED: client.search() da bi go bo o qdrant-client ban moi (>=1.12),

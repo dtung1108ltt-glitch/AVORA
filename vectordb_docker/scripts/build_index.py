@@ -1,9 +1,11 @@
 """
 Runs ONCE at Docker build time (not at container startup).
 
-Embed 57 JD bang model nhe, mien phi (intfloat/multilingual-e5-small -
-118M tham so, 384 chieu, chay CPU) va luu vector ra
-data/job_embeddings_e5.json de main.py nap vao Qdrant luc container khoi dong.
+Embed 57 JD bang model duy nhat cho toan he thong: Qwen/Qwen3-Embedding-8B
+(8 ty tham so, decoder-only, dim mac dinh 4096 - xem
+https://huggingface.co/Qwen/Qwen3-Embedding-8B). Luu vector ra
+data/job_embeddings_qwen3.json de main.py nap vao Qdrant luc container
+khoi dong.
 
 Theo dung note cua thay:
   - Chi embedding phan MO TA CONG VIEC (JD), KHONG embedding nhan doi tuong
@@ -20,12 +22,16 @@ import os
 from sentence_transformers import SentenceTransformer
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
-MODEL_NAME = "intfloat/multilingual-e5-small"
 
-# e5 models yeu cau prefix "passage: " cho van ban duoc luu (index), va
-# "query: " cho van ban dung de tim kiem (xem app/main.py) - thieu prefix
-# nay se lam giam do chinh xac ro ret.
-PASSAGE_PREFIX = "passage: "
+# Model DUY NHAT cho toan he thong - dung dung 1 cho ca job (passage) lan
+# cau query nguoi dung nhap luc search (xem app/main.py: QWEN_MODEL_NAME).
+MODEL_NAME = "Qwen/Qwen3-Embedding-8B"
+
+# Qwen3-Embedding la model instruction-aware: CHI query moi can them huong
+# dan nhiem vu (xem app/main.py: encode_text_query), con van ban DOCUMENT/
+# PASSAGE (job description) thi encode THO, khong can prefix - khac voi quy
+# uoc "passage: "/"query: " cua e5. Nguon: model card chinh thuc + vi du
+# code cua Qwen (sentence-transformers >= 2.7, transformers >= 4.51.0).
 
 
 def build_embedding_text(job: dict) -> str:
@@ -43,12 +49,12 @@ def build_embedding_text(job: dict) -> str:
 with open(os.path.join(DATA_DIR, "jobs_raw.json"), "r", encoding="utf-8") as f:
     jobs = json.load(f)
 
-print(f"Loading model {MODEL_NAME} ...")
+print(f"Loading model {MODEL_NAME} (8B params - lan dau se tai ~16-32GB, co the mat rat lau)...")
 model = SentenceTransformer(MODEL_NAME)
 
-texts = [PASSAGE_PREFIX + build_embedding_text(j) for j in jobs]
+texts = [build_embedding_text(j) for j in jobs]  # KHONG prefix cho document/passage
 
-print(f"Encoding {len(texts)} job descriptions with e5-small...")
+print(f"Encoding {len(texts)} job descriptions with Qwen3-Embedding-8B (CPU, co the cham)...")
 vectors = model.encode(texts, normalize_embeddings=True, show_progress_bar=True, convert_to_numpy=True)
 
 records = []
@@ -63,8 +69,8 @@ for j, vec in zip(jobs, vectors):
         "vector": [round(float(x), 6) for x in vec.tolist()],
     })
 
-out_path = os.path.join(DATA_DIR, "job_embeddings_e5.json")
+out_path = os.path.join(DATA_DIR, "job_embeddings_qwen3.json")
 with open(out_path, "w", encoding="utf-8") as f:
     json.dump(records, f, ensure_ascii=False, indent=2)
 
-print(f"Saved {len(records)} e5 embeddings ({records[0]['embedding_dim']} dims) to {out_path}")
+print(f"Saved {len(records)} Qwen3 embeddings ({records[0]['embedding_dim']} dims) to {out_path}")

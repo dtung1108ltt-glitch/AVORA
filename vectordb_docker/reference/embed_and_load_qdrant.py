@@ -1,9 +1,10 @@
 """
 [Bản đã sửa để tương thích qdrant-client mới - xem ghi chú "FIXED" bên dưới]
 
-Embed 57 JD (Vieclamnguoikhuyettat_embeddings.xlsx) bang model nhe, mien phi
-(intfloat/multilingual-e5-small - 118M tham so, 384 chieu, chay CPU) roi nap
-vao Qdrant de phuc vu Cosine Similarity search.
+Embed 57 JD (Vieclamnguoikhuyettat_embeddings.xlsx) bang model DUY NHAT cho
+toan he thong (Qwen/Qwen3-Embedding-8B - 8 ty tham so, 4096 chieu, khuyen
+nghi GPU) roi nap vao Qdrant de phuc vu Cosine Similarity search. Xem canh
+bao tai nguyen trong vectordb_docker/README.md truoc khi chay.
 
 Theo dung note cua thay:
   - Chi embedding phan MO TA CONG VIEC (JD), KHONG embedding nhan doi tuong
@@ -33,13 +34,17 @@ SHEET_NAME = "viec_lam_nguoi_khuyet_tat_datas"
 QDRANT_URL = "http://localhost:6333"
 COLLECTION_NAME = "avora_jobs"
 
-MODEL_NAME ="Qwen/Qwen3-Embedding-8B"
-VECTOR_SIZE = 8192
+MODEL_NAME = "Qwen/Qwen3-Embedding-8B"
+VECTOR_SIZE = 4096  # dim mac dinh thuc te cua model (khong phai 8192 - da fix)
 
-# e5 models yeu cau prefix "passage: " cho van ban duoc luu, "query: " cho
-# van ban dung de tim kiem - thieu prefix nay se lam giam do chinh xac ro ret.
-PASSAGE_PREFIX = "passage: "
-QUERY_PREFIX = "query: "
+# Qwen3-Embedding la model instruction-aware (KHAC e5): chi cau QUERY moi can
+# them huong dan nhiem vu dang "Instruct: {task}\nQuery:{text}"; van ban
+# DOCUMENT/PASSAGE (JD) thi encode THO, khong prefix gi ca. Xem app/main.py
+# (QUERY_TASK_INSTRUCTION) de dong bo dung 1 quy uoc cho toan he thong.
+QUERY_TASK_INSTRUCTION = (
+    "Given a Vietnamese job-search query, retrieve job descriptions "
+    "suitable for people with disabilities that match the query"
+)
 
 
 def load_jobs():
@@ -77,7 +82,7 @@ def main():
         row_dict = dict(zip(header, row))
         job_id = f"JOB_{i:03d}"
         text = build_embedding_text(row_dict)
-        texts.append(PASSAGE_PREFIX + text)
+        texts.append(text)  # document/passage: khong prefix (quy uoc Qwen3)
         records.append({"job_id": job_id, "text": text, "payload": row_dict})
 
     print(f"Embedding {len(texts)} JD...")

@@ -1,10 +1,12 @@
 # Single-container Vector DB package:
 #   - Qdrant (vector database engine)
-#   - Pre-loaded job embeddings dataset (57 records)
-#     - "jobs"       collection: 133-dim TF-IDF/SVD vectors
-#     - "avora_jobs" collection: 384-dim multilingual-e5-small vectors
+#   - Pre-loaded job embeddings dataset (57 records), MOT model DUY NHAT
+#     cho toan he thong:
+#     - "avora_jobs" collection: 4096-dim Qwen/Qwen3-Embedding-8B vectors
 #       (JD text only - no disability labels, per teacher's spec)
 #   - FastAPI wrapper exposing convenience search endpoints
+#
+
 FROM qdrant/qdrant:latest
 
 # Qdrant's base image is Debian-based; add Python for the API wrapper.
@@ -27,9 +29,11 @@ COPY scripts/ ./scripts/
 COPY entrypoint.sh .
 RUN sed -i 's/\r$//' entrypoint.sh && chmod +x entrypoint.sh
 
-# Download multilingual-e5-small AND encode all 57 jobs into
-# data/job_embeddings_e5.json — baked into the image at build time so
-# no internet / no delay is needed when the container actually runs.
+# Download Qwen/Qwen3-Embedding-8B (~16-32GB) AND encode all 57 jobs into
+# data/job_embeddings_qwen3.json — baked into the image at build time so
+# no internet is needed when the container actually runs. This step will
+# take substantially longer than before (large download + CPU encode of
+# an 8B-parameter model instead of a 118M-parameter one).
 RUN python3 scripts/build_index.py
 
 # 6333/6334 = Qdrant REST/gRPC, 8000 = FastAPI wrapper
